@@ -6,23 +6,24 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import AppBar from 'material-ui/AppBar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+const AppBarExampleIcon = () => (
+  <AppBar
+    title="Title"
+    iconClassNameRight="muidocs-icon-navigation-expand-more"
+  />
+);
 export default class Header extends Component {
- 
   render() {
     return (
-      <Router>
-      <div id="title"> travelShare
-        <ul id="button">
-        <li>
-          <Link to="/resources">Resources</Link> 
-        </li>
-        <li>
-           <Link to="/template">Template</Link>
-        </li>
-        </ul> 
-        </div>
-        </Router>
+    <div>
+      <MuiThemeProvider>
+        <AppBarExampleIcon/>
+      </MuiThemeProvider>
+    </div>
+
     );
   }
 }
