@@ -7,40 +7,33 @@ import {
 } from 'react-router-dom'
 import Template from './Template';
 import Resources from './Resources';
-
-const Button = () => (
-  <Router>
-   <header>
-     <div className = "nav">
-        <Route exact path="/" component={App}/>
-        <ul id="button">
-        <li>
-          <Link to="/template">Template</Link>
-        </li>
-        <li>
-           <Link to="/resources">Resources</Link>
-        </li>
-        </ul>
-        </div>
-    <Route path="/template" component={Template}/>
-    <Route path="/resources" component={Resources}/>
-    </header>
-  </Router>
-)
-
+import Header from './Header';
 
 class App extends Component {
  
   render() {
     return (
-      <div className="App">
-          <h1 id="title"> travelShare </h1>
-      </div>
+    <Router>
+     <div className = "heading"> <Link to="/">  </Link> 
+      <ul id="button">
+        <li>
+          <Link to="/resources">Resources</Link> 
+        </li>
+        <li>
+           <Link to="/template">Template</Link>
+        </li>
+        </ul>
+    
+    <Route exact path="/" component={Header}/>   
+    <Route path="/template" component={Template}/>
+    <Route path="/resources" component={Resources}/>
+
+     </div>
+  </Router>
+
     );
   }
 }
 
 
-
-
-export default Button;
+export default App;
