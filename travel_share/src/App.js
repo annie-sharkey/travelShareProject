@@ -15,11 +15,9 @@ class App extends Component {
     return (
     <Router>
      <div>
-      
       <Route path="/" component={Header}/>
       <Route path="/template" component={Template}/>
       <Route path="/resources" component={Resources}/>
-
      </div>
   </Router>
 
