@@ -1,0 +1,19 @@
+.template {
+}
+
+.selector {
+  float: left;
+  background-color: white;
+  position: relative;
+  padding: 20px;
+}
+#img{
+    width: 100%;
+    height: 100%;
+}
+
+.display {
+  float: right;
+  position: relative;
+  padding: 20px;
+}
