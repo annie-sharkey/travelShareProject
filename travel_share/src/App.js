@@ -15,6 +15,7 @@ class App extends Component {
     return (
     <Router>
      <div className = "heading"> <Link to="/">  </Link> 
+     <Header />
       <ul id="button">
         <li>
           <Link to="/resources">Resources</Link> 
@@ -24,7 +25,6 @@ class App extends Component {
         </li>
         </ul>
     
-    <Route exact path="/" component={Header}/>   
     <Route path="/template" component={Template}/>
     <Route path="/resources" component={Resources}/>
 

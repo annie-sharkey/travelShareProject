@@ -12,7 +12,7 @@ export default class Template extends Component {
         return (   
             <div className = "sidebar"> 
                 <Panel />
-                {/*<Screen />*/}
+                <Screen />
             </div>
         )
     }
