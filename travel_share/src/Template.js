@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+
 require('./Template.css');
 
 
 export default class Template extends Component {
     render() {
-        return (
+        return (   
             <div className = "sidebar"> 
-                <h1> hello </h1>
+                <h2> hello </h2>
              </div>
         )
     }
