@@ -40,7 +40,11 @@ export class TypeSelector extends Component {
 
     handleMenuChange = (event, index, value) => this.setState({value});
 
-    handleInput = (event, index, inputText) => this.setState({inputText});
+    handleInput = (event, inputText) => {
+        console.log(event);
+        console.log(inputText);
+        this.setState({inputText});
+    }
 
     render() {
         return (
@@ -61,7 +65,7 @@ export class TypeSelector extends Component {
             </div>
             <br />
             <div >
-                <TextField hintText={"Enter Here"} value={this.state.inputText} onChange={this.handleInput}/>
+                <TextField initialValues={"Enter Here"} value={this.state.inputText} onChange={this.handleInput}/>
             </div>
             <br />
             <RaisedButton label="Submit"  />   
