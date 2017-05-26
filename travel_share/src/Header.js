@@ -11,8 +11,18 @@ export default class Header extends Component {
  
   render() {
     return (
-          <span id="title"> travelShare </span>
-
+      <Router>
+      <div id="title"> travelShare
+        <ul id="button">
+        <li>
+          <Link to="/resources">Resources</Link> 
+        </li>
+        <li>
+           <Link to="/template">Template</Link>
+        </li>
+        </ul> 
+        </div>
+        </Router>
     );
   }
 }

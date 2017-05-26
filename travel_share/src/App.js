@@ -14,19 +14,11 @@ class App extends Component {
   render() {
     return (
     <Router>
-     <div className = "heading"> <Link to="/">  </Link> 
-     <Header />
-      <ul id="button">
-        <li>
-          <Link to="/resources">Resources</Link> 
-        </li>
-        <li>
-           <Link to="/template">Template</Link>
-        </li>
-        </ul>
-    
-    <Route path="/template" component={Template}/>
-    <Route path="/resources" component={Resources}/>
+     <div>
+      
+      <Route path="/" component={Header}/>
+      <Route path="/template" component={Template}/>
+      <Route path="/resources" component={Resources}/>
 
      </div>
   </Router>
