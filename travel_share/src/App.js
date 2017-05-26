@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
     <Router>
-     <div className = "heading"> <Link to="/"></Link> 
+     <div className = "heading"> <Link to="/">  </Link> 
       <ul id="button">
         <li>
           <Link to="/resources">Resources</Link> 

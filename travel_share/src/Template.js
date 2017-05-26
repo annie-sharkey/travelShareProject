@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import Panel from './Panel';
+import Screen from './Screen';
+
 require('./Template.css');
 
 
@@ -8,8 +11,9 @@ export default class Template extends Component {
     render() {
         return (   
             <div className = "sidebar"> 
-                <h2> hello </h2>
-             </div>
+                <Panel />
+                {/*<Screen />*/}
+            </div>
         )
     }
 }

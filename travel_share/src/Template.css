@@ -1,6 +1,8 @@
 .sidebar {
-  text-align: left;
-  background-color: white;
+  float: left;
+  background-color: grey;
+  width: 20%;
+  position: fixed;
 }
 #img{
     width: 100%;
