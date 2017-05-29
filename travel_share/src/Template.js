@@ -33,17 +33,18 @@ export class TypeSelector extends Component {
         super(props);
         this.state = {
             value: 1, 
-            primaryText: "Flight",
+            titleText: "",
             inputText: ""
         };
     }
 
-    handleMenuChange = (event, index, value) => this.setState({value});
+    handleMenuChange = (event, index, value) => {
+        this.setState({...this.state, value});
+
+    }
 
     handleInput = (event, inputText) => {
-        console.log(event);
-        console.log(inputText);
-        this.setState({inputText});
+        this.setState({...this.state, inputText});
     }
 
     render() {
@@ -54,28 +55,25 @@ export class TypeSelector extends Component {
             <div>
             <SelectField 
                 floatingLabelText = "Aspect"
-                value={this.state.value} 
-                onChange={this.handleMenuChange}>
-                <MenuItem value={1} primaryText={"Flight"} />
-                <MenuItem value={2} primaryText={"Transportation"} />
-                {/*<MenuItem value={3} primaryText={"Lodging"} />
-                <MenuItem value={4} primaryText={"Day 1"} />
-                <MenuItem value={5} primaryText={"Day 2"} />*/}
+                value={this.state.value}
+                onChange={this.handleMenuChange}
+            >
+                <MenuItem value={1} primaryText={"Day 1"} />
+                <MenuItem value={2} primaryText={"Day 2"} />
             </SelectField>
             </div>
             <br />
             <div >
-                <TextField initialValues={"Enter Here"} value={this.state.inputText} onChange={this.handleInput}/>
+                <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput}/>
             </div>
-            <br />
-            <RaisedButton label="Submit"  />   
+            <br />  
             <h3> Add A Category </h3>
             <TextField hintText="Enter New Category"  />
             <AddButton />
         </div>
         <div className="display">
              <Card>
-                <CardTitle subtitle="information" />
+                <CardTitle title={this.state.titleText} subtitle="information" />
                 <CardText> {this.state.inputText} </CardText>
              </Card> 
         </div> 
