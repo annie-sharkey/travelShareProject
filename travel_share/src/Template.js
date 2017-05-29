@@ -36,6 +36,7 @@ export class TypeSelector extends Component {
             titleText: "",
             inputText: ""
         };
+        this.dayOptions = ["Day 1", "Day 2"]
     }
 
     handleMenuChange = (event, index, value) => {
