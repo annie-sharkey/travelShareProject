@@ -1,0 +1,11 @@
+.cards {
+    display: flex; 
+    padding: 20px;
+}
+
+.individual card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin: 0 20px;
+}
