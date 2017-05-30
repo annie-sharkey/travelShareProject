@@ -28,9 +28,10 @@ export class TypeSelector extends Component {
             titleText: "",
             inputText: "",
             category: "",
-            list_of_categories: ["Day 1", "Day 2"]
+            list_of_categories: ["Day 1", "Day 2"],
+            text_to_display: []
         };
-        
+        this.index_tracker = 0;
     }
 
     handleMenuChange = (event, index, value) => {
@@ -38,13 +39,30 @@ export class TypeSelector extends Component {
             ...this.state, 
             value
         });
-
+        this.index_tracker = value;
+        
     }
 
     handleInput = (event, inputText) => {
-        this.setState({...this.state, inputText});
+        
+        this.setState({
+            ...this.state, 
+            inputText
+        });
+
     }
 
+    handleInputAdding = (index_tracker) => {
+        const display_text = {
+            index_of_text: this.index_tracker,
+            text_2: this.state.inputText
+        }
+        
+        this.setState({
+            ...this.state,
+            text_to_display: this.state.text_to_display.concat([display_text])
+        })
+    }
    
     handleCategoryChange = (event, category) => {
         this.setState({
@@ -68,6 +86,9 @@ export class TypeSelector extends Component {
     render() {
         console.log(this.state.category);
         console.log(this.state.list_of_categories);
+        console.log(this.index_tracker);
+        console.log(this.state.text_to_display);
+        // console.log(this.state.text_to_display["0"].text);
         return (
         <div>
             <div className="selector">
@@ -78,27 +99,27 @@ export class TypeSelector extends Component {
                 </FloatingActionButton>    
                 <h3> Select Aspect Of Itinerary: </h3> 
                 <div>
-                    <SelectField 
-                        floatingLabelText = "Aspect"
-                        value={this.state.value}
-                        onChange={this.handleMenuChange}
-                    >
-                        <MenuItem value={1} primaryText={"Day 1"} />
-                        <MenuItem value={2} primaryText={"Day 2"} />
+                    <SelectField floatingLabelText = "Aspect" value={this.state.value} onChange={this.handleMenuChange}>
+                        {this.state.list_of_categories.map((categoryItem, index) => {
+                            return (
+                                <MenuItem key={index} value={index} primaryText={categoryItem} />
+                            );
+                        })}
                     </SelectField>
                 </div>
                 <br />
-                    <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput} multiLine={true}/>  
+                <div >
+                    <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput} multiLine={true}/> 
+                    <br />
+                    <RaisedButton label="Submit" primary={true} onTouchTap={() => this.handleInputAdding(this.index_tracker)} />
+                </div>         
             </div>
             <div className="display">
-                <Card className="individual card">
-                    <CardTitle title={this.state.titleText} subtitle="information" />
-                    <CardText> {this.state.inputText} </CardText>
-                </Card> 
-                {this.state.list_of_categories.map((categoryItem) => {
+                {this.state.list_of_categories.map((categoryItem, index) => {
                         return (
-                            <Card className="individual card">
+                            <Card key={index} className="individual card">
                                 <CardTitle title={categoryItem}/>
+                                {/*<CardText> {this.state.text_to_display[0].text_2} </CardText>*/}
                             </Card> 
                         );
                     })}
