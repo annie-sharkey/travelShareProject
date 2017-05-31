@@ -19,8 +19,9 @@ const style = {
   marginRight: 20,
 }; 
 
-
-
+const cardStyle = {
+  margin: 10,
+}; 
 
 export class TypeSelector extends Component {
     constructor(props) {
@@ -147,7 +148,7 @@ export class TypeSelector extends Component {
             <div className="display">
                     {this.state.list_of_categories.map((categoryItem, index) => {
                             return (
-                                <Card key={index} className="individual card">
+                                <Card key={index} className="individual card" style={cardStyle}>
                                     <CardTitle title={categoryItem}/>
                                     {/*<CardText>{this.state.filteredResults[index].text_to_display}</CardText>*/}
                                 </Card> 
