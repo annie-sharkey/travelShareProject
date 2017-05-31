@@ -13,7 +13,14 @@
 }
 
 .display {
-  float: right;
+  display: flex;
   position: relative;
   padding: 20px;
+}
+
+.individual card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 100px;
+    margin: 50px;
 }

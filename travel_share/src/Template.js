@@ -19,14 +19,9 @@ const style = {
   marginRight: 20,
 }; 
 
-
-const AddButton = () => (
-    <div>
-    <FloatingActionButton mini={true} style={style}>
-      <ContentAdd />
-    </FloatingActionButton>
-    </div>
-);
+const cardStyle = {
+  margin: 10,
+}; 
 
 export class TypeSelector extends Component {
     constructor(props) {
@@ -34,50 +29,132 @@ export class TypeSelector extends Component {
         this.state = {
             value: 1, 
             titleText: "",
-            inputText: ""
+            inputText: "",
+            category: "",
+            list_of_categories: ["Day 1"],
+            inputText_list: [
+                {
+                    index_of_text: 0,
+                    text_to_display: "sample"
+                }
+            ],
+            filteredResults: [
+                {
+                    index_of_text: 0,
+                    text_to_display: "sample" 
+                }
+            ]
         };
-        this.dayOptions = ["Day 1", "Day 2"]
+        
+        this.index_tracker = 0;
+
+       
     }
 
     handleMenuChange = (event, index, value) => {
-        this.setState({...this.state, value});
-
+        this.setState({
+            ...this.state, 
+            value
+        });
+        this.index_tracker = value;
+        
     }
 
     handleInput = (event, inputText) => {
-        this.setState({...this.state, inputText});
+        
+        this.setState({
+            ...this.state, 
+            inputText
+        });
+
     }
 
+    handleInputAdding = (index_tracker) => {
+        const display_text = {
+            index_of_text: this.index_tracker,
+            text_to_display: this.state.inputText
+        }
+        console.log(display_text.index_of_text);
+        this.setState({
+            ...this.state,
+            inputText_list: this.state.inputText_list.concat([display_text]),
+            filteredResults: this.state.inputText_list.filter((texts)=> {
+                return (
+                    texts.index_of_text == this.index_tracker
+                    )
+            })
+        });
+    }
+   
+    handleCategoryChange = (event, category) => {
+        this.setState({
+            ...this.setState,
+            category,
+             
+        });
+        
+    }
+    
+    onAddingCard = () => {
+        
+        this.setState({
+            ...this.state, 
+            list_of_categories: this.state.list_of_categories.concat([this.state.category])    
+        })
+        
+    }
+    
+/*     filteredResults = this.state.inputText_list.filter((texts)=> {
+            return (
+                texts.index_of_text == this.index_tracker
+                )
+        });*/
+    
     render() {
+        console.log(this.state.inputText);
+        console.log(this.index_tracker);
+        console.log(this.state.inputText_list);
+        console.log(this.state.filteredResults);
+        if(this.state.inputText_list.length > 0) {
+            console.log(this.state.inputText_list[0].text_to_display);
+        }
+
+        
         return (
         <div>
-        <div className="selector">
-            <h3> Select Aspect Of Itinerary: </h3> 
-            <div>
-            <SelectField 
-                floatingLabelText = "Aspect"
-                value={this.state.value}
-                onChange={this.handleMenuChange}
-            >
-                <MenuItem value={1} primaryText={"Day 1"} />
-                <MenuItem value={2} primaryText={"Day 2"} />
-            </SelectField>
+            <div className="selector">
+                <h3> Add A Category </h3>
+                <TextField hintText="Enter New Category" value={this.state.category} onChange={this.handleCategoryChange}/>
+                <FloatingActionButton onTouchTap={() => this.onAddingCard(this.state.category)} mini={true} style={style}>
+                    <ContentAdd />
+                </FloatingActionButton>    
+                <h3> Select Aspect Of Itinerary: </h3> 
+                <div>
+                    <SelectField floatingLabelText = "Aspect" value={this.state.value} onChange={this.handleMenuChange}>
+                        {this.state.list_of_categories.map((categoryItem, index) => {
+                            return (
+                                <MenuItem key={index} value={index} primaryText={categoryItem} />
+                            );
+                        })}
+                    </SelectField>
+                </div>
+                <br />
+                <div >
+                    <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput} multiLine={true}/> 
+                    <br />
+                    <RaisedButton label="Submit" primary={true} onTouchTap={() => this.handleInputAdding(this.index_tracker)} />
+                </div>         
             </div>
-            <br />
-            <div >
-                <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput}/>
-            </div>
-            <br />  
-            <h3> Add A Category </h3>
-            <TextField hintText="Enter New Category"  />
-            <AddButton />
-        </div>
-        <div className="display">
-             <Card>
-                <CardTitle title={this.state.titleText} subtitle="information" />
-                <CardText> {this.state.inputText} </CardText>
-             </Card> 
-        </div> 
+            <div className="display">
+                    {this.state.list_of_categories.map((categoryItem, index) => {
+                            return (
+                                <Card key={index} className="individual card" style={cardStyle}>
+                                    <CardTitle title={categoryItem}/>
+                                    {/*<CardText>{this.state.filteredResults[index].text_to_display}</CardText>*/}
+                                </Card> 
+                            );
+                        })}    
+            </div> 
         </div>   
         )
     }
@@ -91,7 +168,6 @@ export default class Template extends Component {
         return (
         <MuiThemeProvider>
             <div className ="template">
-                    
                     <TypeSelector />
             </div>
       </MuiThemeProvider>

@@ -1,0 +1,12 @@
+.cards {
+    display: flex; 
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 20px;
+    /*justify-content: center;*/
+}
+
+.individual card {
+    padding: 20px;
+    margin: 0 20px;
+}
