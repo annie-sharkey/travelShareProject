@@ -20,6 +20,8 @@ const style = {
 }; 
 
 
+
+
 export class TypeSelector extends Component {
     constructor(props) {
         super(props);
@@ -29,9 +31,17 @@ export class TypeSelector extends Component {
             inputText: "",
             category: "",
             list_of_categories: ["Day 1", "Day 2"],
-            text_to_display: []
+            inputText_list: [],
         };
+        
         this.index_tracker = 0;
+
+        this.filteredResults = this.state.inputText_list.filter((texts)=> {
+            return (
+                console.log(texts.index_of_text),
+                texts.index_of_text == this.index_tracker
+                )
+        });
     }
 
     handleMenuChange = (event, index, value) => {
@@ -55,12 +65,12 @@ export class TypeSelector extends Component {
     handleInputAdding = (index_tracker) => {
         const display_text = {
             index_of_text: this.index_tracker,
-            text_2: this.state.inputText
+            text_to_display: this.state.inputText
         }
-        
+        console.log(display_text.index_of_text);
         this.setState({
             ...this.state,
-            text_to_display: this.state.text_to_display.concat([display_text])
+            inputText_list: this.state.inputText_list.concat([display_text])
         })
     }
    
@@ -77,18 +87,19 @@ export class TypeSelector extends Component {
         
         this.setState({
             ...this.state, 
-            list_of_categories: this.state.list_of_categories.concat(this.state.category)    
+            list_of_categories: this.state.list_of_categories.concat([this.state.category])    
         })
         
     }
 
     
+    
+    
     render() {
-        console.log(this.state.category);
-        console.log(this.state.list_of_categories);
+        console.log(this.state.inputText);
         console.log(this.index_tracker);
-        console.log(this.state.text_to_display);
-        // console.log(this.state.text_to_display["0"].text);
+        console.log(this.state.inputText_list);
+        console.log(this.filteredResults);
         return (
         <div>
             <div className="selector">
@@ -119,7 +130,8 @@ export class TypeSelector extends Component {
                         return (
                             <Card key={index} className="individual card">
                                 <CardTitle title={categoryItem}/>
-                                {/*<CardText> {this.state.text_to_display[0].text_2} </CardText>*/}
+                                
+                                <CardText>  </CardText>
                             </Card> 
                         );
                     })}
