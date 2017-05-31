@@ -21,6 +21,6 @@
 .individual card {
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 20px;
-    margin: 0 auto;
+    padding: 100px;
+    margin: 100px;
 }

@@ -30,18 +30,24 @@ export class TypeSelector extends Component {
             titleText: "",
             inputText: "",
             category: "",
-            list_of_categories: ["Day 1", "Day 2"],
-            inputText_list: [],
+            list_of_categories: ["Day 1"],
+            inputText_list: [
+                {
+                    index_of_text: 0,
+                    text_to_display: "sample"
+                }
+            ],
+            filteredResults: [
+                {
+                    index_of_text: 0,
+                    text_to_display: "sample" 
+                }
+            ]
         };
         
         this.index_tracker = 0;
 
-        this.filteredResults = this.state.inputText_list.filter((texts)=> {
-            return (
-                console.log(texts.index_of_text),
-                texts.index_of_text == this.index_tracker
-                )
-        });
+       
     }
 
     handleMenuChange = (event, index, value) => {
@@ -70,8 +76,13 @@ export class TypeSelector extends Component {
         console.log(display_text.index_of_text);
         this.setState({
             ...this.state,
-            inputText_list: this.state.inputText_list.concat([display_text])
-        })
+            inputText_list: this.state.inputText_list.concat([display_text]),
+            filteredResults: this.state.inputText_list.filter((texts)=> {
+                return (
+                    texts.index_of_text == this.index_tracker
+                    )
+            })
+        });
     }
    
     handleCategoryChange = (event, category) => {
@@ -91,16 +102,23 @@ export class TypeSelector extends Component {
         })
         
     }
-
     
-    
+/*     filteredResults = this.state.inputText_list.filter((texts)=> {
+            return (
+                texts.index_of_text == this.index_tracker
+                )
+        });*/
     
     render() {
         console.log(this.state.inputText);
         console.log(this.index_tracker);
         console.log(this.state.inputText_list);
-        console.log(this.filteredResults);
-        console.log(this.state.inputText_list[0].text_to_display);
+        console.log(this.state.filteredResults);
+        if(this.state.inputText_list.length > 0) {
+            console.log(this.state.inputText_list[0].text_to_display);
+        }
+
+        
         return (
         <div>
             <div className="selector">
@@ -127,15 +145,14 @@ export class TypeSelector extends Component {
                 </div>         
             </div>
             <div className="display">
-                {this.state.list_of_categories.map((categoryItem, index) => {
-                        return (
-                            <Card key={index} className="individual card">
-                                <CardTitle title={categoryItem}/>
-                                
-                                <CardText>  </CardText>
-                            </Card> 
-                        );
-                    })}
+                    {this.state.list_of_categories.map((categoryItem, index) => {
+                            return (
+                                <Card key={index} className="individual card">
+                                    <CardTitle title={categoryItem}/>
+                                    {/*<CardText>{this.state.filteredResults[index].text_to_display}</CardText>*/}
+                                </Card> 
+                            );
+                        })}    
             </div> 
         </div>   
         )
