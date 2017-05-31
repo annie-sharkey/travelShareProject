@@ -100,6 +100,7 @@ export class TypeSelector extends Component {
         console.log(this.index_tracker);
         console.log(this.state.inputText_list);
         console.log(this.filteredResults);
+        console.log(this.state.inputText_list[0].text_to_display);
         return (
         <div>
             <div className="selector">
