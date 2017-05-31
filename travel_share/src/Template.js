@@ -44,11 +44,8 @@ export class TypeSelector extends Component {
                     text_to_display: "sample" 
                 }
             ]
-        };
-        
-        this.index_tracker = 0;
-
-       
+        }
+        this.index_tracker = 0;       
     }
 
     handleMenuChange = (event, index, value) => {
@@ -69,18 +66,18 @@ export class TypeSelector extends Component {
 
     }
 
-    handleInputAdding = (index_tracker) => {
-        const display_text = {
-            index_of_text: this.index_tracker,
+    handleInputAdding = (categoryIndex) => {
+        const itineraryItem = {
+            index_of_text: categoryIndex,
             text_to_display: this.state.inputText
         }
-        console.log(display_text.index_of_text);
+        console.log(itineraryItem.index_of_text);
         this.setState({
             ...this.state,
-            inputText_list: this.state.inputText_list.concat([display_text]),
+            inputText_list: this.state.inputText_list.concat([itineraryItem]),
             filteredResults: this.state.inputText_list.filter((texts)=> {
                 return (
-                    texts.index_of_text == this.index_tracker
+                    texts.index_of_text == categoryIndex
                     )
             })
         });
@@ -104,11 +101,6 @@ export class TypeSelector extends Component {
         
     }
     
-/*     filteredResults = this.state.inputText_list.filter((texts)=> {
-            return (
-                texts.index_of_text == this.index_tracker
-                )
-        });*/
     
     render() {
         console.log(this.state.inputText);
@@ -150,7 +142,7 @@ export class TypeSelector extends Component {
                             return (
                                 <Card key={index} className="individual card" style={cardStyle}>
                                     <CardTitle title={categoryItem}/>
-                                    {/*<CardText>{this.state.filteredResults[index].text_to_display}</CardText>*/}
+                                    <CardText>{this.state.filteredResults.map(result => <div>{result.text_to_display}</div>)}</CardText>
                                 </Card> 
                             );
                         })}    
