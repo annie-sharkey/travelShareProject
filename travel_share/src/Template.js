@@ -87,6 +87,9 @@ export class TypeSelector extends Component {
         
     }
     
+    onDeletingCard = () => {
+        
+    }
     
     render() {
         if(this.state.inputText_list.length > 0) {
@@ -129,7 +132,7 @@ export class TypeSelector extends Component {
                                         .map(result => <div>{result.text_to_display}</div>)}</CardText>
                                     <CardActions>
                                         <RaisedButton primary={true} label="Edit"/>
-                                        <RaisedButton primary={true} label="Delete" />
+                                        <RaisedButton primary={true} label="Delete" onTouchTap/>
                                     </CardActions>            
                                 </Card> 
                             );
