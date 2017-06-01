@@ -1,5 +1,5 @@
 import * as firebase from "firebase";
-// import FirebaseAuth from 'react-firebase-auth'
+import FirebaseAuth from 'react-firebase-auth'
 import React, { Component } from 'react';
 import Header from './Header';
 
@@ -12,8 +12,6 @@ var config = {
   storageBucket: "static-grid-168100.appspot.com",
 };
 firebase.initializeApp(config);
-
-var user = firebase.auth().currentUser;
 
 var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -34,14 +32,6 @@ firebase.auth().signInWithPopup(provider).then(function(result) {
   // ...
 });
 
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      // User is signed in.
-    } else {
-      // No user is signed in.
-    }
-  });
-
 
 export default class Authentication extends Component {
   // constructor(props) {
@@ -60,7 +50,7 @@ export default class Authentication extends Component {
   render() {
     return (
       <div>
-        {/*<FirebaseAuth
+        <FirebaseAuth
           twitter
           github
           email
@@ -76,10 +66,9 @@ export default class Authentication extends Component {
           onAuthStateChanged={user => {
             console.log(user.displayName)
           }}
-        />*/}
-        {/*<Header displayName={user.displayName}/>*/}
+          />
       </div>
-    )
+    );
   }
 }
 
