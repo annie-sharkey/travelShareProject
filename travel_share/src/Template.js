@@ -10,6 +10,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
+
 injectTapEventPlugin();
 require('./Template.css');
 
@@ -21,6 +22,9 @@ const style = {
 
 const cardStyle = {
   margin: 10,
+  height: "100%",
+  width: "250px"
+
 }; 
 
 export class TypeSelector extends Component {
@@ -33,15 +37,21 @@ export class TypeSelector extends Component {
             category: "",
             list_of_categories: ["Day 1"],
             inputText_list: []
+            
         }
-        this.index_tracker = 0;       
+        this.index_tracker = 0;
+        this.submitState = true       
     }
 
     handleMenuChange = (event, index, value) => {
         this.setState({
             ...this.state, 
-            value
+            value,
+            
         });
+        if(!this.submitState) {
+            this.submitState = !this.submitState
+        } 
         this.index_tracker = value;
         
     }
@@ -57,15 +67,41 @@ export class TypeSelector extends Component {
 
     handleInputAdding = (categoryIndex) => {
         const itineraryItem = {
-            index_of_text: categoryIndex,
+            categoryIndex: categoryIndex,
             text_to_display: this.state.inputText
         }
-        console.log(itineraryItem.index_of_text);
+        console.log(itineraryItem.categoryIndex);
         this.setState({
             ...this.state,
             inputText_list: this.state.inputText_list.concat([itineraryItem]),
             inputText: ""
         });
+    }
+
+    handleInputEditing = (categoryIndex) => {
+
+        const editedItineraryItem = {
+            categoryIndex: categoryIndex,
+            text_to_display: this.state.inputText
+        }
+
+        var currentCardTextObjects = this.state.inputText_list.filter(result => result.categoryIndex === categoryIndex)
+
+        currentCardTextObjects[currentCardTextObjects.length-1] = editedItineraryItem
+
+        var latestEditedItineraryItem = currentCardTextObjects.splice(currentCardTextObjects.length-1,1)
+
+        var noncurrentCardTextObjects = this.state.inputText_list.filter(result => result.categoryIndex !== categoryIndex)
+
+        var finalEditedInputsForAllCards = noncurrentCardTextObjects.concat(latestEditedItineraryItem)
+
+        this.setState({
+           ...this.state, 
+           inputText_list: finalEditedInputsForAllCards,
+           inputText: ""
+        })
+
+        this.submitState = !this.submitState
     }
    
     handleCategoryChange = (event, category) => {
@@ -86,16 +122,34 @@ export class TypeSelector extends Component {
         })
         
     }
-    
-    onDeletingCard = () => {
+
+    onEditingCard = (categoryIndex) => {
         
+        var allCurrentCardTextToEdit = this.state.inputText_list.filter(result => result.categoryIndex === categoryIndex).map(result => result.text_to_display)
+        var currentCardTextToEdit = allCurrentCardTextToEdit.join(' ')
+        
+        this.setState({
+            ...this.state,
+            inputText: currentCardTextToEdit,
+            
+            // inputText_list: this.state.inputText_list
+        })
+
+        this.submitState = !this.submitState
     }
     
+    // onDeletingCard = (categoryIndex) => {
+    //     var removed_category = this.state.list_of_categories.splice(categoryIndex, 1)
+    //     console.log(this.state.inputText_list)
+    //     console.log(this.state.list_of_categories)
+    //     // var indexOfDeletedCategory = 
+    //     this.setState({
+    //         ...this.state,
+    //         list_of_categories: this.state.list_of_categories
+    //     })
+    // }
+    
     render() {
-        if(this.state.inputText_list.length > 0) {
-            console.log(this.state.inputText_list[0].text_to_display);
-        }
-
         
         return (
         <div>
@@ -119,7 +173,7 @@ export class TypeSelector extends Component {
                 <div >
                     <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput} multiLine={true}/> 
                     <br />
-                    <RaisedButton label="Submit" primary={true} onTouchTap={() => this.handleInputAdding(this.index_tracker)} />
+                    <RaisedButton label={this.submitState ? 'Submit' : 'ReSubmit'} onTouchTap={this.submitState? () => this.handleInputAdding(this.index_tracker) : () => this.handleInputEditing(this.index_tracker)} style={style} />  
                 </div>         
             </div>
             <div className="display">
@@ -128,11 +182,11 @@ export class TypeSelector extends Component {
                                 <Card key={categoryIndex} className="individual card" style={cardStyle}>
                                     <CardTitle title={categoryItem}/>
                                     <CardText>{this.state.inputText_list
-                                        .filter(result => result.index_of_text === categoryIndex)
+                                        .filter(result => result.categoryIndex === categoryIndex)
                                         .map(result => <div>{result.text_to_display}</div>)}</CardText>
                                     <CardActions>
-                                        <RaisedButton primary={true} label="Edit"/>
-                                        <RaisedButton primary={true} label="Delete" onTouchTap/>
+                                        <RaisedButton label="Edit" onTouchTap={() => this.onEditingCard(categoryIndex)} style={style}/>
+                                        {/*<RaisedButton label="Delete" onTouchTap={() => this.onDeletingCard(categoryIndex)} style={style}/>*/}
                                     </CardActions>            
                                 </Card> 
                             );

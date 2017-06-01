@@ -32,8 +32,7 @@ export default class Resources extends Component {
                     </CardMedia>
                 <CardText> Frommer's offers ideas and inspiration for travel desinations, itineraries along with deals for users. </CardText>
                 <CardActions>
-                    <RaisedButton href="http://www.frommers.com/" label="Explore"/>
-                    {console.log(this.value)};    
+                    <RaisedButton href="http://www.frommers.com/" label="Explore"/>   
                 </CardActions>
              </Card> 
 
