@@ -17,10 +17,14 @@ require('./Template.css');
 // style for button
 const style = {
   marginRight: 20,
+  backgroundColor: "#FF0000"
 }; 
 
 const cardStyle = {
   margin: 10,
+  height: "100%",
+  width: "250px"
+
 }; 
 
 export class TypeSelector extends Component {
@@ -86,16 +90,26 @@ export class TypeSelector extends Component {
         })
         
     }
+
+    onEditingCard = (categoryIndex) => {
+        var currentCardTexts = this.state.inputText_list.filter(result => result.index_of_text == categoryIndex)
+        var allCurrentCardTexttoEdit = this.state.inputText_list.filter(result => result.index_of_text == categoryIndex).map(result => result.text_to_display)
+        var currentCardTexttoEdit = allCurrentCardTexttoEdit.join(' ')
+        this.setState({
+            ...this.state,
+            inputText: currentCardTexttoEdit,
+            // inputText_list: this.state.inputText_list
+        })
+    }
     
-    onDeletingCard = () => {
-        
+    onDeletingCard = (categoryIndex) => {
+        this.setState({
+            ...this.state,
+            list_of_categories: this.state.list_of_categories.splice(categoryIndex, 1)
+        })
     }
     
     render() {
-        if(this.state.inputText_list.length > 0) {
-            console.log(this.state.inputText_list[0].text_to_display);
-        }
-
         
         return (
         <div>
@@ -119,7 +133,7 @@ export class TypeSelector extends Component {
                 <div >
                     <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput} multiLine={true}/> 
                     <br />
-                    <RaisedButton label="Submit" primary={true} onTouchTap={() => this.handleInputAdding(this.index_tracker)} />
+                    <RaisedButton label="Submit" onTouchTap={() => this.handleInputAdding(this.index_tracker)} style={style} />
                 </div>         
             </div>
             <div className="display">
@@ -131,8 +145,8 @@ export class TypeSelector extends Component {
                                         .filter(result => result.index_of_text === categoryIndex)
                                         .map(result => <div>{result.text_to_display}</div>)}</CardText>
                                     <CardActions>
-                                        <RaisedButton primary={true} label="Edit"/>
-                                        <RaisedButton primary={true} label="Delete" onTouchTap/>
+                                        <RaisedButton label="Edit" onTouchTap={() => this.onEditingCard(categoryIndex)} style={style}/>
+                                        <RaisedButton label="Delete" onTouchTap={() => this.onDeletingCard(categoryIndex)} style={style}/>
                                     </CardActions>            
                                 </Card> 
                             );
