@@ -10,6 +10,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
+
 injectTapEventPlugin();
 require('./Template.css');
 
@@ -17,7 +18,6 @@ require('./Template.css');
 // style for button
 const style = {
   marginRight: 20,
-  backgroundColor: "#FF0000"
 }; 
 
 const cardStyle = {
@@ -37,15 +37,21 @@ export class TypeSelector extends Component {
             category: "",
             list_of_categories: ["Day 1"],
             inputText_list: []
+            
         }
-        this.index_tracker = 0;       
+        this.index_tracker = 0;
+        this.submitState = true       
     }
 
     handleMenuChange = (event, index, value) => {
         this.setState({
             ...this.state, 
-            value
+            value,
+            
         });
+        if(!this.submitState) {
+            this.submitState = !this.submitState
+        } 
         this.index_tracker = value;
         
     }
@@ -61,15 +67,41 @@ export class TypeSelector extends Component {
 
     handleInputAdding = (categoryIndex) => {
         const itineraryItem = {
-            index_of_text: categoryIndex,
+            categoryIndex: categoryIndex,
             text_to_display: this.state.inputText
         }
-        console.log(itineraryItem.index_of_text);
+        console.log(itineraryItem.categoryIndex);
         this.setState({
             ...this.state,
             inputText_list: this.state.inputText_list.concat([itineraryItem]),
             inputText: ""
         });
+    }
+
+    handleInputEditing = (categoryIndex) => {
+
+        const editedItineraryItem = {
+            categoryIndex: categoryIndex,
+            text_to_display: this.state.inputText
+        }
+
+        var currentCardTextObjects = this.state.inputText_list.filter(result => result.categoryIndex === categoryIndex)
+
+        currentCardTextObjects[currentCardTextObjects.length-1] = editedItineraryItem
+
+        var latestEditedItineraryItem = currentCardTextObjects.splice(currentCardTextObjects.length-1,1)
+
+        var noncurrentCardTextObjects = this.state.inputText_list.filter(result => result.categoryIndex !== categoryIndex)
+
+        var finalEditedInputsForAllCards = noncurrentCardTextObjects.concat(latestEditedItineraryItem)
+
+        this.setState({
+           ...this.state, 
+           inputText_list: finalEditedInputsForAllCards,
+           inputText: ""
+        })
+
+        this.submitState = !this.submitState
     }
    
     handleCategoryChange = (event, category) => {
@@ -92,22 +124,30 @@ export class TypeSelector extends Component {
     }
 
     onEditingCard = (categoryIndex) => {
-        var currentCardTexts = this.state.inputText_list.filter(result => result.index_of_text == categoryIndex)
-        var allCurrentCardTexttoEdit = this.state.inputText_list.filter(result => result.index_of_text == categoryIndex).map(result => result.text_to_display)
-        var currentCardTexttoEdit = allCurrentCardTexttoEdit.join(' ')
+        
+        var allCurrentCardTextToEdit = this.state.inputText_list.filter(result => result.categoryIndex === categoryIndex).map(result => result.text_to_display)
+        var currentCardTextToEdit = allCurrentCardTextToEdit.join(' ')
+        
         this.setState({
             ...this.state,
-            inputText: currentCardTexttoEdit,
+            inputText: currentCardTextToEdit,
+            
             // inputText_list: this.state.inputText_list
         })
+
+        this.submitState = !this.submitState
     }
     
-    onDeletingCard = (categoryIndex) => {
-        this.setState({
-            ...this.state,
-            list_of_categories: this.state.list_of_categories.splice(categoryIndex, 1)
-        })
-    }
+    // onDeletingCard = (categoryIndex) => {
+    //     var removed_category = this.state.list_of_categories.splice(categoryIndex, 1)
+    //     console.log(this.state.inputText_list)
+    //     console.log(this.state.list_of_categories)
+    //     // var indexOfDeletedCategory = 
+    //     this.setState({
+    //         ...this.state,
+    //         list_of_categories: this.state.list_of_categories
+    //     })
+    // }
     
     render() {
         
@@ -133,7 +173,7 @@ export class TypeSelector extends Component {
                 <div >
                     <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput} multiLine={true}/> 
                     <br />
-                    <RaisedButton label="Submit" onTouchTap={() => this.handleInputAdding(this.index_tracker)} style={style} />
+                    <RaisedButton label={this.submitState ? 'Submit' : 'ReSubmit'} onTouchTap={this.submitState? () => this.handleInputAdding(this.index_tracker) : () => this.handleInputEditing(this.index_tracker)} style={style} />  
                 </div>         
             </div>
             <div className="display">
@@ -142,11 +182,11 @@ export class TypeSelector extends Component {
                                 <Card key={categoryIndex} className="individual card" style={cardStyle}>
                                     <CardTitle title={categoryItem}/>
                                     <CardText>{this.state.inputText_list
-                                        .filter(result => result.index_of_text === categoryIndex)
+                                        .filter(result => result.categoryIndex === categoryIndex)
                                         .map(result => <div>{result.text_to_display}</div>)}</CardText>
                                     <CardActions>
                                         <RaisedButton label="Edit" onTouchTap={() => this.onEditingCard(categoryIndex)} style={style}/>
-                                        <RaisedButton label="Delete" onTouchTap={() => this.onDeletingCard(categoryIndex)} style={style}/>
+                                        {/*<RaisedButton label="Delete" onTouchTap={() => this.onDeletingCard(categoryIndex)} style={style}/>*/}
                                     </CardActions>            
                                 </Card> 
                             );
