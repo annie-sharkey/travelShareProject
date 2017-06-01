@@ -8,7 +8,7 @@ import {
 import Template from './Template';
 import Resources from './Resources';
 import Header from './Header';
-// import Authentication from './Authentication';
+import Authentication from './Authentication';
 
 class App extends Component {
  
@@ -17,7 +17,7 @@ class App extends Component {
     <Router>
      <div>
       <Route path="/" component={Header}/>
-      {/*<Route exact path="/" component={Authentication} />*/}
+      <Route exact path="/" component={Authentication} />
       <Route path="/template" component={Template}/>
       <Route path="/resources" component={Resources}/>
      </div>
