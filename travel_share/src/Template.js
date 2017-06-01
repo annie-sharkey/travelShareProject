@@ -32,18 +32,7 @@ export class TypeSelector extends Component {
             inputText: "",
             category: "",
             list_of_categories: ["Day 1"],
-            inputText_list: [
-                {
-                    index_of_text: 0,
-                    text_to_display: "sample"
-                }
-            ],
-            filteredResults: [
-                {
-                    index_of_text: 0,
-                    text_to_display: "sample" 
-                }
-            ]
+            inputText_list: []
         }
         this.index_tracker = 0;       
     }
@@ -75,11 +64,7 @@ export class TypeSelector extends Component {
         this.setState({
             ...this.state,
             inputText_list: this.state.inputText_list.concat([itineraryItem]),
-            filteredResults: this.state.inputText_list.filter((texts)=> {
-                return (
-                    texts.index_of_text == categoryIndex
-                    )
-            })
+            inputText: ""
         });
     }
    
@@ -96,17 +81,14 @@ export class TypeSelector extends Component {
         
         this.setState({
             ...this.state, 
-            list_of_categories: this.state.list_of_categories.concat([this.state.category])    
+            list_of_categories: this.state.list_of_categories.concat([this.state.category]),    
+            category: ""
         })
         
     }
     
     
     render() {
-        console.log(this.state.inputText);
-        console.log(this.index_tracker);
-        console.log(this.state.inputText_list);
-        console.log(this.state.filteredResults);
         if(this.state.inputText_list.length > 0) {
             console.log(this.state.inputText_list[0].text_to_display);
         }
@@ -138,11 +120,17 @@ export class TypeSelector extends Component {
                 </div>         
             </div>
             <div className="display">
-                    {this.state.list_of_categories.map((categoryItem, index) => {
+                    {this.state.list_of_categories.map((categoryItem, categoryIndex) => {
                             return (
-                                <Card key={index} className="individual card" style={cardStyle}>
+                                <Card key={categoryIndex} className="individual card" style={cardStyle}>
                                     <CardTitle title={categoryItem}/>
-                                    <CardText>{this.state.filteredResults.map(result => <div>{result.text_to_display}</div>)}</CardText>
+                                    <CardText>{this.state.inputText_list
+                                        .filter(result => result.index_of_text === categoryIndex)
+                                        .map(result => <div>{result.text_to_display}</div>)}</CardText>
+                                    <CardActions>
+                                        <RaisedButton primary={true} label="Edit"/>
+                                        <RaisedButton primary={true} label="Delete" />
+                                    </CardActions>            
                                 </Card> 
                             );
                         })}    
