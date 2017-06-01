@@ -40,6 +40,7 @@ export default class Header extends Component {
       <div id="title"> 
         <MuiThemeProvider>
           <NavBar />
+          {/*<header>{this.props.displayName}</header>*/}
         </MuiThemeProvider>
       </div>
     </Router>
