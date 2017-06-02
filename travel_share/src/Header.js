@@ -31,19 +31,22 @@ export default class Header extends Component {
       <Router>
       <div id="title"> 
         <MuiThemeProvider>
-           <AppBar
-            title="travelShare"
-            iconElementRight = { 
-              <div>
-                <FlatButton label="Template" primary={true} disabled={this.state.emailVerified ? false : true} containerElement={<Link to="/template"/>}/>
-                <FlatButton label="Resources" primary={true} disabled={this.state.emailVerified ? false : true} containerElement={<Link to="/resources"/>}/>
-              </div> 
-            }
-            showMenuIconButton={false}
-            style={{
-              backgroundColor: 'black',
-            }}
-          />
+          <div id="headerBar">
+            <AppBar
+              title="travelShare"
+              iconElementRight = { 
+                <div>
+                  <FlatButton label="Template" primary={true} disabled={this.state.emailVerified ? false : true} containerElement={<Link to="/template"/>}/>
+                  <FlatButton label="Resources" primary={true} disabled={this.state.emailVerified ? false : true} containerElement={<Link to="/resources"/>}/>
+                </div> 
+              }
+              showMenuIconButton={false}
+              style={{
+                backgroundColor: 'black',
+              }}
+            />
+            <h6 className="welcomeMessage"> Welcome {this.state.username}! </h6>
+          </div>
         </MuiThemeProvider>
       </div>
     </Router>
