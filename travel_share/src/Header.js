@@ -10,6 +10,8 @@ import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
 
 const headerButtonStyle = {
   
@@ -29,7 +31,7 @@ export default class Header extends Component {
         <MuiThemeProvider>
           <div id="headerBar">
             <AppBar
-              title="travelShare"
+              title="travelPlanner"
               iconElementRight = { 
                 <div>
                   

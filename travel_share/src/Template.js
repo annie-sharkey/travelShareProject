@@ -53,7 +53,7 @@ export class TypeSelector extends Component {
             list_of_categories: ["Day 1"],
             inputText_list: [{
                 categoryIndex: 0,
-                text_to_display: "sample"
+                text_to_display: "Golden Gate Bridge tour at 9:00AM"
             }]
             
         }
@@ -227,7 +227,7 @@ export class TypeSelector extends Component {
                 <div >
                     <TextField hintText={this.state.titleText} value={this.state.inputText} onChange={this.handleInput} multiLine={true}/> 
                     <br />
-                    <RaisedButton label={this.submitState ? 'Submit' : 'ReSubmit'} onTouchTap={this.submitState? () => this.handleInputAdding(this.index_tracker) : () => this.handleInputEditing(this.index_tracker)} style={style} />  
+                    <RaisedButton primary={true} label={this.submitState ? 'Submit' : 'ReSubmit'} onTouchTap={this.submitState? () => this.handleInputAdding(this.index_tracker) : () => this.handleInputEditing(this.index_tracker)} style={style} />  
                 </div>         
             </div>
             <div className="display">
@@ -239,7 +239,7 @@ export class TypeSelector extends Component {
                                         .filter(result => result.categoryIndex === categoryIndex)
                                         .map(result => <div>{result.text_to_display}</div>)}</CardText>
                                     <CardActions>
-                                        <RaisedButton label="Edit" onTouchTap={() => this.onEditingCard(categoryIndex)} style={style}/>
+                                        <RaisedButton label="Edit" primary={true} onTouchTap={() => this.onEditingCard(categoryIndex)} style={style}/>
                                         {/*<RaisedButton label="Delete" onTouchTap={() => this.onDeletingCard(categoryIndex)} style={style}/>*/}
                                     </CardActions>            
                                 </Card> 
