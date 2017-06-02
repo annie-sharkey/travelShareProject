@@ -1,7 +1,8 @@
 import * as firebase from "firebase";
-import FirebaseAuth from 'react-firebase-auth'
+// import FirebaseAuth from 'react-firebase-auth'
 import React, { Component } from 'react';
 import Header from './Header';
+
 
 // Initialize Firebase
 
@@ -20,6 +21,8 @@ firebase.auth().signInWithPopup(provider).then(function(result) {
   var token = result.credential.accessToken;
   // The signed-in user info.
   var user = result.user;
+  console.log(user);
+  console.log(user.displayName);
   // ...
 }).catch(function(error) {
   // Handle Errors here.
@@ -33,7 +36,9 @@ firebase.auth().signInWithPopup(provider).then(function(result) {
 });
 
 
-export default class Authentication extends Component {
+export default LogIn; 
+
+//export default class Authentication extends Component {
   // constructor(props) {
   //   super(props);
   //   this.state= {
@@ -47,7 +52,7 @@ export default class Authentication extends Component {
   //     )
   // }
 
-  render() {
+  /*render() {
     return (
       <div>
         <FirebaseAuth
@@ -69,7 +74,7 @@ export default class Authentication extends Component {
           />
       </div>
     );
-  }
-}
+  }*/
+// }
 
 
