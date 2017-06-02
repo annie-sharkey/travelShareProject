@@ -14,26 +14,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 
 export default class Header extends Component {
-  // componentDidMount() {
-  //   console.log(this.props.username)
-  //   console.log(this.props.emailVerified)
-  // }
 
   constructor(props) {
         super(props);
-        this.state = {
-          username: this.props.username,
-          emailVerified: this.props.emailVerified,
-          logInState: true
-        }
   } 
-  // handleLogInButton = () => {
-  //   this.setState({
-  //     ...this.state,
-  //     logInState: !this.state.logInState
-  //   })
-  // }
-
+  
   render() {
     return (
       <Router>
@@ -44,9 +29,11 @@ export default class Header extends Component {
               title="travelShare"
               iconElementRight = { 
                 <div>
-                  <RaisedButton label={this.state.logInState ? "Log In" : "Log Off"} primary={true} onTouchTap={this.props.onLogIn}/>
-                  <FlatButton label="Template" primary={true} disabled={this.state.emailVerified ? false : true} containerElement={<Link to="/template"/>}/>
-                  <FlatButton label="Resources" primary={true} disabled={this.state.emailVerified ? false : true} containerElement={<Link to="/resources"/>}/>
+                  
+                  <FlatButton label="Template" primary={true} disabled={this.props.emailVerified ? false : true} containerElement={<Link to="/template"/>}/>
+                  <FlatButton label="Resources" primary={true} disabled={this.props.emailVerified ? false : true} containerElement={<Link to="/resources"/>}/>
+                  <FlatButton label={this.props.logInState ? "Log In" : "Log Out"} secondary={true} onTouchTap={this.props.onLogIn}/>
+
                 </div> 
               }
               showMenuIconButton={false}
@@ -54,7 +41,7 @@ export default class Header extends Component {
                 backgroundColor: 'black',
               }}
             />
-            <h6 className="welcomeMessage"> Welcome {this.state.username}! </h6>
+            <h6 className="welcomeMessage"> Welcome {this.props.username}! </h6>
           </div>
         </MuiThemeProvider>
       </div>

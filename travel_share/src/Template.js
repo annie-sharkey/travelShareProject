@@ -9,10 +9,25 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-
+import * as firebase from 'firebase';
+import {travelShareApp} from "./firebase-config";
 
 injectTapEventPlugin();
 require('./Template.css');
+
+var config = {
+  apiKey: "AIzaSyDrLAr6U0jNQoLj50jhRid9PyOu5flf2tw",
+  authDomain: "static-grid-168100.firebaseapp.com",
+  databaseURL: "https://static-grid-168100.firebaseio.com",
+  storageBucket: "static-grid-168100.appspot.com",
+};
+
+
+
+var database = firebase.database();
+ 
+var readData = firebase.database().ref()
+
 
 
 // style for button
@@ -65,6 +80,13 @@ export class TypeSelector extends Component {
 
     }
 
+    writeInputTextList = (inputText_list, categories) => {
+        firebase.database().ref('/userData ' + this.props.userID).set({
+            inputText_list: inputText_list,
+            categories: categories
+        });
+    }
+
     handleInputAdding = (categoryIndex) => {
         const itineraryItem = {
             categoryIndex: categoryIndex,
@@ -76,6 +98,8 @@ export class TypeSelector extends Component {
             inputText_list: this.state.inputText_list.concat([itineraryItem]),
             inputText: ""
         });
+
+        this.writeInputTextList(this.state.inputText_list.concat([itineraryItem]), this.state.list_of_categories);
     }
 
     handleInputEditing = (categoryIndex) => {
@@ -102,6 +126,8 @@ export class TypeSelector extends Component {
         })
 
         this.submitState = !this.submitState
+        
+        this.writeInputTextList(finalEditedInputsForAllCards, this.state.list_of_categories);
     }
    
     handleCategoryChange = (event, category) => {
@@ -113,6 +139,13 @@ export class TypeSelector extends Component {
         
     }
     
+    writeListOfCategories = (inputText_list, categories) => {
+        firebase.database().ref('/userData ' + this.props.userID).set({
+            inputText_list: inputText_list,
+            categories: categories
+        });
+    }
+
     onAddingCard = () => {
         
         this.setState({
@@ -121,6 +154,7 @@ export class TypeSelector extends Component {
             category: ""
         })
         
+        this.writeListOfCategories(this.state.inputText_list, this.state.list_of_categories.concat([this.state.category]));
     }
 
     onEditingCard = (categoryIndex) => {
@@ -151,6 +185,7 @@ export class TypeSelector extends Component {
     
     render() {
         
+        console.log(this.props.userID)
         return (
         <div>
             <div className="selector">
@@ -201,11 +236,16 @@ export class TypeSelector extends Component {
 
 export default class Template extends Component {    
     
+    constructor(props) {
+        super(props);
+    }
+
     render() {
+        console.log(this.props.userID)
         return (
         <MuiThemeProvider>
             <div className ="template">
-                    <TypeSelector />
+                    <TypeSelector userID={this.props.userID}/>
             </div>
       </MuiThemeProvider>
     );
