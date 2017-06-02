@@ -11,7 +11,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-
+const headerButtonStyle = {
+  
+  marginRight: 12,
+}; 
 
 export default class Header extends Component {
 
@@ -30,9 +33,12 @@ export default class Header extends Component {
               iconElementRight = { 
                 <div>
                   
-                  <FlatButton label="Template" primary={true} disabled={this.props.emailVerified ? false : true} containerElement={<Link to="/template"/>}/>
-                  <FlatButton label="Resources" primary={true} disabled={this.props.emailVerified ? false : true} containerElement={<Link to="/resources"/>}/>
-                  <FlatButton label={this.props.logInState ? "Log In" : "Log Out"} secondary={true} onTouchTap={this.props.onLogIn}/>
+                  <FlatButton label="Template" primary={true} disabled={this.props.emailVerified ? false : true} 
+                  containerElement={<Link to="/template"/>} style={headerButtonStyle}/>
+                  <FlatButton label="Resources" primary={true} disabled={this.props.emailVerified ? false : true} 
+                  containerElement={<Link to="/resources"/>} style={headerButtonStyle}/>
+                  <FlatButton label={this.props.logInState ? "Log In" : "Log Out"} secondary={true} onTouchTap={this.props.onLogIn} 
+                  containerElement={<Link to="/"/>} style={headerButtonStyle}/>
 
                 </div> 
               }

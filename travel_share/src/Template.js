@@ -26,7 +26,7 @@ var config = {
 
 var database = firebase.database();
  
-var readData = firebase.database().ref()
+// var readData = firebase.database().ref('/userData ' + this.props.userID);
 
 
 
@@ -51,11 +51,31 @@ export class TypeSelector extends Component {
             inputText: "",
             category: "",
             list_of_categories: ["Day 1"],
-            inputText_list: []
+            inputText_list: [{
+                categoryIndex: 0,
+                text_to_display: "sample"
+            }]
             
         }
         this.index_tracker = 0;
         this.submitState = true       
+    }
+
+
+    componentWillMount() {
+        console.log(this.state.inputText_list);
+        firebase.database().ref('/userData ' + this.props.userID).on('value', (snapshot) => {
+            var data = snapshot.val();
+            if(data){
+                this.setState({
+                ...this.state,
+                inputText: "",
+                category: "",
+                list_of_categories: snapshot.val().categories,
+                inputText_list: snapshot.val().inputText_list
+                })
+            }  
+        });
     }
 
     handleMenuChange = (event, index, value) => {
@@ -92,7 +112,6 @@ export class TypeSelector extends Component {
             categoryIndex: categoryIndex,
             text_to_display: this.state.inputText
         }
-        console.log(itineraryItem.categoryIndex);
         this.setState({
             ...this.state,
             inputText_list: this.state.inputText_list.concat([itineraryItem]),
@@ -185,7 +204,7 @@ export class TypeSelector extends Component {
     
     render() {
         
-        console.log(this.props.userID)
+        
         return (
         <div>
             <div className="selector">
