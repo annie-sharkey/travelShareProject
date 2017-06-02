@@ -25,9 +25,9 @@ class App extends Component {
   constructor(props) {
         super(props);
         this.state = {
+          logInState: this.props.logInState
         }
   }     
-  
   componentWillMount() {
     firebase.auth().signInWithPopup(provider).then((result) => {
       this.setState({
@@ -53,9 +53,9 @@ class App extends Component {
   }
 
   render() {
-    
+    console.log(this.state.logInState);
     return (
-   
+      
     <Router>
       <div>
         <Route path="/" component={() => (<Header username={this.state.username} emailVerified={this.state.emailVerified} />)}/>
