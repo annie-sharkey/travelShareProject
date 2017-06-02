@@ -1,3 +1,4 @@
+import * as firebase from "firebase";
 import React, { Component } from 'react';
 import './App.css';
 import {
@@ -8,85 +9,94 @@ import {
 import Template from './Template';
 import Resources from './Resources';
 import Header from './Header';
-// import Authentication from './Authentication';
+import {travelShareApp} from "./firebase-config";
+
+
+var config = {
+  apiKey: "AIzaSyDrLAr6U0jNQoLj50jhRid9PyOu5flf2tw",
+  authDomain: "static-grid-168100.firebaseapp.com",
+  databaseURL: "https://static-grid-168100.firebaseio.com",
+  storageBucket: "static-grid-168100.appspot.com",
+};
+
+var provider = new firebase.auth.GoogleAuthProvider();
+
 
 class App extends Component {
- 
+  constructor(props) {
+        super(props);
+        this.state = {
+          logInState: true
+        }
+  }     
+  // componentDidMount() {
+  //   window.location.reload(true);
+  // }
+  handleLogInButton(logInState) {
+    if(this.state.logInState) {
+        firebase.auth().signInWithPopup(provider).then((result) => {
+        this.setState({
+          username: result.user.displayName,
+          emailVerified: result.user.emailVerified,
+          logInState: !this.state.logInState,
+          userID: result.user.uid
+        })
+      // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        
+      // ...
+        }).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        });
+       
+    }
+    else {
+      firebase.auth().signOut().then(() => {
+        this.setState({
+          username: "",
+          emailVerified: false,
+          logInState: !this.state.logInState
+        })
+        console.log("log out successful")
+        
+        window.location = "/";
+
+      }).catch(function(error) {
+        // An error happened.
+      });
+    }
+    
+  }
+
   render() {
+    console.log(this.state.userID) 
+    console.log(this.state.logInState)
     return (
-    <Router>
-     <div>
-      <Route path="/" component={Header}/>
-      {/*<Route exact path="/" component={Authentication} />*/}
-      <Route path="/template" component={Template}/>
-      <Route path="/resources" component={Resources}/>
-     </div>
      
-  </Router>
+    <Router>
+      <div>
+        <Route path="/" component={() => (<Header username={this.state.username} emailVerified={this.state.emailVerified} 
+        onLogIn={() => this.handleLogInButton(this.state.logInState)} logInState={this.state.logInState}/>)}/>
+        <Route path="/template" component={() => (<Template userID={this.state.userID}/> )}/>
+        <Route path="/resources" component={Resources}/>
+      </div>
+    </Router>
 
     );
   }
 }
-
 
 export default App;
 
-  /*goTo(route) {
-    this.props.history.replace(`/${route}`)
-  }
 
-  login() {
-    this.props.auth.login();
-  }
 
-  logout() {
-    this.props.auth.logout();
-  }
 
-  render() {
-    const { isAuthenticated } = this.props.auth;
-
-    return (
-      <div>
-        <Navbar fluid>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#">Auth0 - React</a>
-            </Navbar.Brand>
-            <Button
-              bsStyle="primary"
-              className="btn-margin"
-              onClick={this.goTo.bind(this, 'home')}
-            >
-              Home
-            </Button>
-            {
-              !isAuthenticated() && (
-                  <Button
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.login.bind(this)}
-                  >
-                    Log In
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() && (
-                  <Button
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.logout.bind(this)}
-                  >
-                    Log Out
-                  </Button>
-                )
-            }
-          </Navbar.Header>
-        </Navbar>
-      </div>
-    );
-  }
-}
-
-export default App;*/

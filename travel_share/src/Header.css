@@ -7,16 +7,18 @@
   margin: 0;
 }
 
-#button  li{
-  background-color: rgba(255,255,255,0.2);
-  float: right;
-  text-decoration: none;
+#headerBar {
+  margin-top: 0;
+  padding: 0
+}
+
+.welcomeMessage{
+  margin: 0;
+  padding: 0;
+  background-color: black;
   text-align: center;
-  align-items: right;
-  list-style: none;
-  border: 2px solid white;
-  border-radius: 7px;
-  padding: 10px;
-  margin: 10px;
-  font-size: 13px;
+  font: Verdana;
+  font-weight: normal;
+  font-size: 25px;
+
 }
