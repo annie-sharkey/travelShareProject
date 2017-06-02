@@ -28,7 +28,8 @@ class App extends Component {
           logInState: this.props.logInState
         }
   }     
-  componentWillMount() {
+  
+  handleLogInButton() {
     firebase.auth().signInWithPopup(provider).then((result) => {
       this.setState({
         username: result.user.displayName,
@@ -53,14 +54,15 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.logInState);
+    console.log(this.props.children);
     return (
-      
+     
     <Router>
       <div>
         <Route path="/" component={() => (<Header username={this.state.username} emailVerified={this.state.emailVerified} />)}/>
         <Route path="/template" component={Template} />
         <Route path="/resources" component={Resources}/>
+        <Header onLogIn={() => this.handleLogInButton(child)} />
       </div>
     </Router>
 

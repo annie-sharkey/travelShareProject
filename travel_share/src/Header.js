@@ -27,12 +27,12 @@ export default class Header extends Component {
           logInState: true
         }
   } 
-  handleLogInButton = () => {
-    this.setState({
-      ...this.state,
-      logInState: !this.state.logInState
-    })
-  }
+  // handleLogInButton = () => {
+  //   this.setState({
+  //     ...this.state,
+  //     logInState: !this.state.logInState
+  //   })
+  // }
 
   render() {
     return (
@@ -44,7 +44,7 @@ export default class Header extends Component {
               title="travelShare"
               iconElementRight = { 
                 <div>
-                  <RaisedButton label={this.state.logInState ? "Log In" : "Log Off"} primary={true} onTouchTap={this.handleLogInButton}/>
+                  <RaisedButton label={this.state.logInState ? "Log In" : "Log Off"} primary={true} onTouchTap={this.props.onLogIn}/>
                   <FlatButton label="Template" primary={true} disabled={this.state.emailVerified ? false : true} containerElement={<Link to="/template"/>}/>
                   <FlatButton label="Resources" primary={true} disabled={this.state.emailVerified ? false : true} containerElement={<Link to="/resources"/>}/>
                 </div> 
