@@ -15,20 +15,10 @@ import {travelShareApp} from "./firebase-config";
 injectTapEventPlugin();
 require('./Template.css');
 
-var config = {
-  apiKey: "AIzaSyDrLAr6U0jNQoLj50jhRid9PyOu5flf2tw",
-  authDomain: "static-grid-168100.firebaseapp.com",
-  databaseURL: "https://static-grid-168100.firebaseio.com",
-  storageBucket: "static-grid-168100.appspot.com",
-};
-
 
 
 var database = firebase.database();
  
-// var readData = firebase.database().ref('/userData ' + this.props.userID);
-
-
 
 // style for button
 const style = {

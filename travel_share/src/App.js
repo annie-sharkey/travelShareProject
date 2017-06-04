@@ -12,13 +12,6 @@ import Header from './Header';
 import {travelShareApp} from "./firebase-config";
 
 
-var config = {
-  apiKey: "AIzaSyDrLAr6U0jNQoLj50jhRid9PyOu5flf2tw",
-  authDomain: "static-grid-168100.firebaseapp.com",
-  databaseURL: "https://static-grid-168100.firebaseio.com",
-  storageBucket: "static-grid-168100.appspot.com",
-};
-
 var provider = new firebase.auth.GoogleAuthProvider();
 
 
