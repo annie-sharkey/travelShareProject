@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd-init": "^2.0.4",
     "firebase": "^4.1.1",
     "firebaseui": "^2.0.0",
     "material-ui": "^0.18.1",

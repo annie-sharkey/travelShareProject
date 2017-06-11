@@ -11,6 +11,8 @@ import Resources from './Resources';
 import Header from './Header';
 import {travelShareApp} from "./firebase-config";
 
+import TemplateRefactor from './TemplateRefactor';
+
 
 var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -56,15 +58,20 @@ class App extends Component {
 
   render() {
     return (
+      <div>
+        <Header />
+        <TemplateRefactor />
+        
+      </div>
      
-    <Router>
+    /*<Router>
       <div>
         <Route path="/" component={() => (<Header username={this.state.username} emailVerified={this.state.emailVerified} 
         onLogIn={() => this.handleLogInButton(this.state.logInState)} logInState={this.state.logInState}/>)}/>
         <Route path="/template" component={() => (<Template userID={this.state.userID}/> )}/>
         <Route path="/resources" component={Resources}/>
       </div>
-    </Router>
+    </Router>*/
 
     );
   }
