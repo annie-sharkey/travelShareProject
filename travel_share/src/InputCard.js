@@ -13,8 +13,13 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 var uuid = require("react-native-uuid");
+
 const style = {
   margin: 80
+};
+
+const addButtonStyle = {
+  width: 250
 };
 
 export default class InputCard extends Component {
@@ -29,7 +34,9 @@ export default class InputCard extends Component {
         }
       ],
       dayList: [],
-      hideInputBox: false
+      hideInputBox: false,
+      resubmit: false,
+      editedDayID: ""
     };
   }
 
@@ -38,6 +45,7 @@ export default class InputCard extends Component {
       ...this.state,
       title: event.target.value
     });
+    console.log(this.state.title);
   };
 
   handleDescription = event => {
@@ -48,7 +56,6 @@ export default class InputCard extends Component {
   };
 
   handleCreateDay = event => {
-    const hideInputBox = this.state.hideInputBox;
     var newDay = {
       dayID: uuid.v1(),
       title: this.state.title,
@@ -57,14 +64,19 @@ export default class InputCard extends Component {
     this.setState({
       hideInputBox: true,
       dayList: this.state.dayList.concat([newDay])
-      // newDay: this.state.newDay[{ title: "", description: "" }]
     });
   };
 
   handleAddDay = event => {
-    const hide = this.state.hideInputBox;
     this.setState({
-      hideInputBox: false
+      hideInputBox: false,
+      resubmit: false
+    });
+  };
+
+  handleGoBack = event => {
+    this.setState({
+      hideInputBox: true
     });
   };
 
@@ -79,28 +91,59 @@ export default class InputCard extends Component {
 
   //callback function
   editDay = ID => {
-    console.log("Entered");
-    console.log(ID);
+    const editedDayID = this.state.editedDayID;
+    const day = this.state.dayList.find(day => day.dayID === ID);
+    this.setState({
+      hideInputBox: false,
+      title: day.title,
+      description: day.description,
+      resubmit: true,
+      editedDayID: ID
+    });
   };
 
+  handleResubmit = event => {
+    const dayIndex = this.state.dayList.findIndex(
+      day => day.dayID === this.state.editedDayID
+    );
+    const updateDay = {
+      dayID: this.state.editedDayID,
+      title: this.state.title,
+      description: this.state.description
+    };
+    const updatedDayList = this.state.dayList.slice(0);
+    updatedDayList[dayIndex] = updateDay;
+
+    this.setState({
+      dayList: updatedDayList,
+      title: "",
+      description: "",
+      hideInputBox: true
+    });
+  };
+  
   render() {
     if (this.state.hideInputBox) {
       return (
         <div>
+          <MuiThemeProvider>
+            <div className="addDayCard">
+              <div className="addDay">
+                <RaisedButton
+                  label="Add Another Day"
+                  secondary={true}
+                  onTouchTap={event => this.handleAddDay(event)}
+                  fullWidth={true}
+                  style={addButtonStyle}
+                />
+              </div>
+            </div>
+          </MuiThemeProvider>
           <DayList
             dayList={this.state.dayList}
             deleteDay={this.deleteDay}
             editDay={this.editDay}
           />
-          <MuiThemeProvider>
-            <div className="addDayCard">
-              <RaisedButton
-                label="Add Another Day"
-                secondary={true}
-                onTouchTap={event => this.handleAddDay(event)}
-              />
-            </div>
-          </MuiThemeProvider>
         </div>
       );
     } else {
@@ -113,6 +156,7 @@ export default class InputCard extends Component {
                   hintText="Hint Text"
                   floatingLabelText="Title"
                   onChange={event => this.handleTitle(event)}
+                  value={this.state.title}
                 />
               </CardText>
               <CardText>
@@ -123,15 +167,27 @@ export default class InputCard extends Component {
                   multiLine={true}
                   rows={2}
                   rowsMax={4}
+                  value={this.state.description}
                   onChange={event => this.handleDescription(event)}
                 />
               </CardText>
 
               <RaisedButton
-                label="Finish Creating Your Day"
-                fullWidth={true}
-                onTouchTap={event => this.handleCreateDay(event)}
-                backgroundColor="#81D4FA"
+                label="Back"
+                primary={true}
+                onTouchTap={event => this.handleGoBack(event)}
+              />
+
+              <RaisedButton
+                label={
+                  this.state.resubmit ? "Resubmit" : "Finish Creating Your Day"
+                }
+                onTouchTap={
+                  this.state.resubmit
+                    ? event => this.handleResubmit(event)
+                    : event => this.handleCreateDay(event)
+                }
+                secondary={true}
               />
 
             </Card>

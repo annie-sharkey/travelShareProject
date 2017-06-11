@@ -20,7 +20,6 @@ const style = {
 };
 
 export default class DayList extends Component {
-
   render() {
     return (
       <MuiThemeProvider>
