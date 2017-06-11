@@ -181,16 +181,6 @@ export class TypeSelector extends Component {
         this.submitState = !this.submitState
     }
     
-    // onDeletingCard = (categoryIndex) => {
-    //     var removed_category = this.state.list_of_categories.splice(categoryIndex, 1)
-    //     console.log(this.state.inputText_list)
-    //     console.log(this.state.list_of_categories)
-    //     // var indexOfDeletedCategory = 
-    //     this.setState({
-    //         ...this.state,
-    //         list_of_categories: this.state.list_of_categories
-    //     })
-    // }
     
     render() {
         

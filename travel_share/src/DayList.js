@@ -38,14 +38,12 @@ export default class DayList extends Component {
 
                   </CardText>
                   <CardActions>
-                    <RaisedButton
+                    <FlatButton
                       label="Edit"
-                      primary={true}
                       onTouchTap={event => this.props.editDay(item.dayID)}
                     />
-                    <RaisedButton
+                    <FlatButton
                       label="Delete"
-                      secondary={true}
                       onTouchTap={event => this.props.deleteDay(item.dayID)}
                     />
                   </CardActions>

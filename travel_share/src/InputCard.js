@@ -11,7 +11,11 @@ import {
 } from "material-ui/Card";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import TextField from "material-ui/TextField";
+import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
+import * as firebase from "firebase";
+import { travelShareApp } from "./firebase-config";
+var database = firebase.database();
 var uuid = require("react-native-uuid");
 
 const style = {
@@ -19,7 +23,7 @@ const style = {
 };
 
 const addButtonStyle = {
-  width: 250
+  margin: 0
 };
 
 export default class InputCard extends Component {
@@ -40,12 +44,17 @@ export default class InputCard extends Component {
     };
   }
 
+  writeDayList = dayList => {
+    firebase.database().ref("/userData " + this.props.userID).set({
+      dayList: dayList
+    });
+  };
+
   handleTitle = event => {
     this.setState({
       ...this.state,
       title: event.target.value
     });
-    console.log(this.state.title);
   };
 
   handleDescription = event => {
@@ -65,12 +74,15 @@ export default class InputCard extends Component {
       hideInputBox: true,
       dayList: this.state.dayList.concat([newDay])
     });
+    this.writeDayList(this.state.dayList);
   };
 
   handleAddDay = event => {
     this.setState({
       hideInputBox: false,
-      resubmit: false
+      resubmit: false,
+      title: "",
+      description: ""
     });
   };
 
@@ -87,6 +99,7 @@ export default class InputCard extends Component {
         return day.dayID != ID;
       })
     });
+    this.writeDayList(this.state.dayList);
   };
 
   //callback function
@@ -120,24 +133,21 @@ export default class InputCard extends Component {
       description: "",
       hideInputBox: true
     });
+    this.writeDayList(this.state.dayList);
   };
-  
+
   render() {
     if (this.state.hideInputBox) {
       return (
         <div>
           <MuiThemeProvider>
-            <div className="addDayCard">
-              <div className="addDay">
-                <RaisedButton
-                  label="Add Another Day"
-                  secondary={true}
-                  onTouchTap={event => this.handleAddDay(event)}
-                  fullWidth={true}
-                  style={addButtonStyle}
-                />
-              </div>
-            </div>
+            <RaisedButton
+              label="Add Another Day"
+              secondary={true}
+              onTouchTap={event => this.handleAddDay(event)}
+              //fullWidth={true}
+              style={addButtonStyle}
+            />
           </MuiThemeProvider>
           <DayList
             dayList={this.state.dayList}
@@ -153,7 +163,6 @@ export default class InputCard extends Component {
             <Card style={style}>
               <CardText>
                 <TextField
-                  hintText="Hint Text"
                   floatingLabelText="Title"
                   onChange={event => this.handleTitle(event)}
                   value={this.state.title}
@@ -161,7 +170,6 @@ export default class InputCard extends Component {
               </CardText>
               <CardText>
                 <TextField
-                  hintText="Full width"
                   floatingLabelText="Describe Your Day"
                   fullWidth={true}
                   multiLine={true}
@@ -172,13 +180,13 @@ export default class InputCard extends Component {
                 />
               </CardText>
 
-              <RaisedButton
+              <FlatButton
                 label="Back"
                 primary={true}
                 onTouchTap={event => this.handleGoBack(event)}
               />
 
-              <RaisedButton
+              <FlatButton
                 label={
                   this.state.resubmit ? "Resubmit" : "Finish Creating Your Day"
                 }
