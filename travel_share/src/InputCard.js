@@ -20,13 +20,15 @@ const style = {
   margin: 80
 };
 
+var uuid = require("react-native-uuid");
+
 export default class InputCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       newDay: [
         {
-          dayID: 1,
+          dayID: "",
           title: "",
           description: ""
         }
@@ -51,7 +53,7 @@ export default class InputCard extends Component {
 
   handleCreateDay = event => {
     var newDay = {
-      dayID: 1 + this.state.dayID,
+      dayID: uuid.v1(),
       title: this.state.title,
       description: this.state.description
     };
@@ -61,13 +63,31 @@ export default class InputCard extends Component {
     });
   };
 
+  //callback function
+  deleteDay = ID => {
+    this.setState({
+      dayList: this.state.dayList.filter(day => {
+        return day.dayID != ID;
+      })
+    });
+  };
+
+  editDay = ID => {
+    console.log("Entered");
+  };
 
   render() {
     console.log(this.state.dayList);
+    console.log(this.state.title);
+    console.log(this.state.dayID);
     return (
       <MuiThemeProvider>
         <div>
-          <DayList dayList={this.state.dayList} />
+          <DayList
+            dayList={this.state.dayList}
+            deleteDay={this.deleteDay}
+            editDay={this.editDay}
+          />
           {/*<RaisedButton
             label="Add Another Day"
             secondary={true}

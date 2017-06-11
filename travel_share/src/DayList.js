@@ -11,19 +11,24 @@ import {
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
+import RaisedButton from "material-ui/RaisedButton";
+
+import FlatButton from "material-ui/FlatButton";
+
 const style = {
   margin: 80
 };
 
 export default class DayList extends Component {
+
   render() {
     return (
       <MuiThemeProvider>
         <div>
           <div>
-            {this.props.dayList.map((item, index) => {
+            {this.props.dayList.map(item => {
               return (
-                <Card style={style} key={index}>
+                <Card style={style} key={item.dayID}>
                   <CardHeader
                     title={item.title}
                     actAsExpander={true}
@@ -31,7 +36,20 @@ export default class DayList extends Component {
                   />
                   <CardText expandable={true}>
                     {item.description}
+
                   </CardText>
+                  <CardActions>
+                    <RaisedButton
+                      label="Edit"
+                      primary={true}
+                      onTouchTap={event => this.props.editDay(item.dayID)}
+                    />
+                    <RaisedButton
+                      label="Delete"
+                      secondary={true}
+                      onTouchTap={event => this.props.deleteDay(item.dayID)}
+                    />
+                  </CardActions>
 
                 </Card>
               );
