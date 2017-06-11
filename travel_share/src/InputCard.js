@@ -16,6 +16,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import * as firebase from "firebase";
 import { travelShareApp } from "./firebase-config";
 var database = firebase.database();
+
 var uuid = require("react-native-uuid");
 
 const style = {
@@ -43,6 +44,21 @@ export default class InputCard extends Component {
       editedDayID: ""
     };
   }
+
+  componentWillMount() {
+    firebase
+      .database()
+      .ref("/userData " + this.props.userID)
+      .on("value", snapshot => {
+        var data = snapshot.val();
+        if (data) {
+          this.setState({
+            dayList: snapshot.val().dayList
+          });
+        }
+      });
+  }
+
 
   writeDayList = dayList => {
     firebase.database().ref("/userData " + this.props.userID).set({
@@ -74,7 +90,7 @@ export default class InputCard extends Component {
       hideInputBox: true,
       dayList: this.state.dayList.concat([newDay])
     });
-    this.writeDayList(this.state.dayList);
+    this.writeDayList(this.state.dayList.concat([newDay]));
   };
 
   handleAddDay = event => {
@@ -99,7 +115,11 @@ export default class InputCard extends Component {
         return day.dayID != ID;
       })
     });
-    this.writeDayList(this.state.dayList);
+    this.writeDayList(
+      this.state.dayList.filter(day => {
+        return day.dayID != ID;
+      })
+    );
   };
 
   //callback function
@@ -133,7 +153,7 @@ export default class InputCard extends Component {
       description: "",
       hideInputBox: true
     });
-    this.writeDayList(this.state.dayList);
+    this.writeDayList(updatedDayList);
   };
 
   render() {

@@ -7,7 +7,7 @@ import Resources from "./Resources";
 import Header from "./Header";
 import { travelShareApp } from "./firebase-config";
 
-import TemplateRefactor from "./TemplateRefactor";
+import InputCard from './InputCard';
 
 var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -72,7 +72,7 @@ class App extends Component {
           />
           <Route
             path="/template"
-            component={() => <TemplateRefactor userID={this.state.userID} />}
+            component={() => <InputCard userID={this.state.userID} />}
           />
           <Route path="/resources" component={Resources} />
         </div>
