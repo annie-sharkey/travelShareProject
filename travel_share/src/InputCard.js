@@ -9,18 +9,13 @@ import {
   CardTitle,
   CardText
 } from "material-ui/Card";
-
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-
 import TextField from "material-ui/TextField";
-
 import RaisedButton from "material-ui/RaisedButton";
-
+var uuid = require("react-native-uuid");
 const style = {
   margin: 80
 };
-
-var uuid = require("react-native-uuid");
 
 export default class InputCard extends Component {
   constructor(props) {
@@ -33,7 +28,9 @@ export default class InputCard extends Component {
           description: ""
         }
       ],
-      dayList: []
+      dayList: [],
+      hide: false,
+      addDay: false
     };
   }
 
@@ -52,14 +49,23 @@ export default class InputCard extends Component {
   };
 
   handleCreateDay = event => {
+    const hide = this.state.hide;
     var newDay = {
       dayID: uuid.v1(),
       title: this.state.title,
       description: this.state.description
     };
     this.setState({
+      hide: true,
       dayList: this.state.dayList.concat([newDay])
       // newDay: this.state.newDay[{ title: "", description: "" }]
+    });
+  };
+
+  handleAddDay = event => {
+    const hide = this.state.hide;
+    this.setState({
+      hide: false
     });
   };
 
@@ -72,57 +78,64 @@ export default class InputCard extends Component {
     });
   };
 
+  //callback function
   editDay = ID => {
     console.log("Entered");
   };
 
   render() {
-    console.log(this.state.dayList);
-    console.log(this.state.title);
-    console.log(this.state.dayID);
-    return (
-      <MuiThemeProvider>
+    if (this.state.hide) {
+      return (
         <div>
           <DayList
             dayList={this.state.dayList}
             deleteDay={this.deleteDay}
             editDay={this.editDay}
           />
-          {/*<RaisedButton
-            label="Add Another Day"
-            secondary={true}
-            style={style}
-          />*/}
-          <Card style={style}>
-            <CardText>
-              <TextField
-                hintText="Hint Text"
-                floatingLabelText="Title"
-                onChange={event => this.handleTitle(event)}
-              />
-            </CardText>
-            <CardText>
-              <TextField
-                hintText="Full width"
-                floatingLabelText="Describe Your Day"
-                fullWidth={true}
-                multiLine={true}
-                rows={2}
-                rowsMax={4}
-                onChange={event => this.handleDescription(event)}
-              />
-            </CardText>
-
+          <MuiThemeProvider>
             <RaisedButton
-              label="Finish Creating Your Day"
-              fullWidth={true}
-              onTouchTap={event => this.handleCreateDay(event)}
-              backgroundColor="#81D4FA"
+              label="Add Another Day"
+              secondary={true}
+              onTouchTap={event => this.handleAddDay(event)}
             />
-
-          </Card>
+          </MuiThemeProvider>
         </div>
-      </MuiThemeProvider>
-    );
+      );
+    } else {
+      return (
+        <MuiThemeProvider>
+          <div>
+            <Card style={style}>
+              <CardText>
+                <TextField
+                  hintText="Hint Text"
+                  floatingLabelText="Title"
+                  onChange={event => this.handleTitle(event)}
+                />
+              </CardText>
+              <CardText>
+                <TextField
+                  hintText="Full width"
+                  floatingLabelText="Describe Your Day"
+                  fullWidth={true}
+                  multiLine={true}
+                  rows={2}
+                  rowsMax={4}
+                  onChange={event => this.handleDescription(event)}
+                />
+              </CardText>
+
+              <RaisedButton
+                label="Finish Creating Your Day"
+                fullWidth={true}
+                onTouchTap={event => this.handleCreateDay(event)}
+                backgroundColor="#81D4FA"
+              />
+
+            </Card>
+          </div>
+        </MuiThemeProvider>
+      );
+    }
   }
 }
