@@ -29,8 +29,7 @@ export default class InputCard extends Component {
         }
       ],
       dayList: [],
-      hide: false,
-      addDay: false
+      hideInputBox: false
     };
   }
 
@@ -49,23 +48,23 @@ export default class InputCard extends Component {
   };
 
   handleCreateDay = event => {
-    const hide = this.state.hide;
+    const hideInputBox = this.state.hideInputBox;
     var newDay = {
       dayID: uuid.v1(),
       title: this.state.title,
       description: this.state.description
     };
     this.setState({
-      hide: true,
+      hideInputBox: true,
       dayList: this.state.dayList.concat([newDay])
       // newDay: this.state.newDay[{ title: "", description: "" }]
     });
   };
 
   handleAddDay = event => {
-    const hide = this.state.hide;
+    const hide = this.state.hideInputBox;
     this.setState({
-      hide: false
+      hideInputBox: false
     });
   };
 
@@ -81,10 +80,11 @@ export default class InputCard extends Component {
   //callback function
   editDay = ID => {
     console.log("Entered");
+    console.log(ID);
   };
 
   render() {
-    if (this.state.hide) {
+    if (this.state.hideInputBox) {
       return (
         <div>
           <DayList
@@ -93,11 +93,13 @@ export default class InputCard extends Component {
             editDay={this.editDay}
           />
           <MuiThemeProvider>
-            <RaisedButton
-              label="Add Another Day"
-              secondary={true}
-              onTouchTap={event => this.handleAddDay(event)}
-            />
+            <div className="addDayCard">
+              <RaisedButton
+                label="Add Another Day"
+                secondary={true}
+                onTouchTap={event => this.handleAddDay(event)}
+              />
+            </div>
           </MuiThemeProvider>
         </div>
       );
