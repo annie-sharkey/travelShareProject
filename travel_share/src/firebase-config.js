@@ -1,12 +1,12 @@
 import * as firebase from "firebase";
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyDDkA6ZBJjycBwqtRi0zcpfiFaSKDBpQdQ",
-  authDomain: "travelplanner-6d725.firebaseapp.com",
-  databaseURL: "https://travelplanner-6d725.firebaseio.com",
-  projectId: "travelplanner-6d725",
-  storageBucket: "travelplanner-6d725.appspot.com",
-  messagingSenderId: "189712094966"
+  apiKey: "AIzaSyAOwlak6ttE_-auODueYm813lVblmgAl2Q",
+  authDomain: "travelshare-f457b.firebaseapp.com",
+  databaseURL: "https://travelshare-f457b.firebaseio.com",
+  projectId: "travelshare-f457b",
+  storageBucket: "travelshare-f457b.appspot.com",
+  messagingSenderId: "1006319289975"
 };
 
 export const travelShareApp = firebase.initializeApp(firebaseConfig);
