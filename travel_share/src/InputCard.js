@@ -59,7 +59,6 @@ export default class InputCard extends Component {
       });
   }
 
-
   writeDayList = dayList => {
     firebase.database().ref("/userData " + this.props.userID).set({
       dayList: dayList
@@ -160,15 +159,19 @@ export default class InputCard extends Component {
     if (this.state.hideInputBox) {
       return (
         <div>
+
           <MuiThemeProvider>
             <RaisedButton
               label="Add Another Day"
-              secondary={true}
+              labelColor="white"
+              backgroundColor="#2196F3"
               onTouchTap={event => this.handleAddDay(event)}
-              //fullWidth={true}
+              fullWidth={true}
               style={addButtonStyle}
             />
           </MuiThemeProvider>
+
+
           <DayList
             dayList={this.state.dayList}
             deleteDay={this.deleteDay}

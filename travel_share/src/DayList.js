@@ -16,7 +16,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
 
 const style = {
-  margin: 80
+  margin: 50
 };
 
 export default class DayList extends Component {

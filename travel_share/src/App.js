@@ -2,7 +2,7 @@ import * as firebase from "firebase";
 import React, { Component } from "react";
 import "./App.css";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
-import Template from "./Template";
+// import Template from "./Template";
 import Resources from "./Resources";
 import Header from "./Header";
 import { travelShareApp } from "./firebase-config";
