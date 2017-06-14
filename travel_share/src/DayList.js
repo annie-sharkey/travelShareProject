@@ -34,7 +34,7 @@ export default class DayList extends Component {
                     showExpandableButton={true}
                   />
                   <CardText expandable={true}>
-                    {item.description}
+                    {item.description[0]}
 
                   </CardText>
                   <CardActions>

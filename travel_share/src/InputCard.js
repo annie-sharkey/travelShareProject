@@ -31,14 +31,8 @@ export default class InputCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newDay: [
-        {
-          dayID: "",
-          title: "",
-          description: ""
-        }
-      ],
       dayList: [],
+      itineraryItemList: [],
       hideInputBox: false,
       resubmit: false,
       editedDayID: ""
@@ -75,7 +69,29 @@ export default class InputCard extends Component {
   handleDescription = event => {
     this.setState({
       ...this.state,
-      description: event.target.value
+      stringInput: event.target.value
+    });
+  };
+
+  addItineraryItem = event => {
+    var itineraryItem = {
+      itemID: uuid.v1(),
+      stringInput: this.state.stringInput
+    };
+
+    var updatedDescription = this.state.itineraryItemList;
+    updatedDescription = updatedDescription.concat([itineraryItem]);
+
+    // var update = {
+    //   dayID: uuid.v1(),
+    //   title: this.state.title,
+    //   description: updatedDescription
+    // };
+
+    this.setState({
+      ...this.state,
+      itineraryItemList: updatedDescription
+      // dayList: this.state.dayList.concat([update])
     });
   };
 
@@ -83,9 +99,10 @@ export default class InputCard extends Component {
     var newDay = {
       dayID: uuid.v1(),
       title: this.state.title,
-      description: this.state.description
+      description: this.state.itineraryItemList
     };
     this.setState({
+      ...this.state,
       hideInputBox: true,
       dayList: this.state.dayList.concat([newDay])
     });
@@ -156,6 +173,7 @@ export default class InputCard extends Component {
   };
 
   render() {
+    console.log(this.state.dayList);
     if (this.state.hideInputBox) {
       return (
         <div>
@@ -170,7 +188,6 @@ export default class InputCard extends Component {
               style={addButtonStyle}
             />
           </MuiThemeProvider>
-
 
           <DayList
             dayList={this.state.dayList}
@@ -200,6 +217,11 @@ export default class InputCard extends Component {
                   rowsMax={4}
                   value={this.state.description}
                   onChange={event => this.handleDescription(event)}
+                />
+                <FlatButton
+                  label="Add Item"
+                  primary={true}
+                  onTouchTap={event => this.addItineraryItem(event)}
                 />
               </CardText>
 
